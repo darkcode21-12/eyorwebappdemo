@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS-Only Interactive Slideshow</title>
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .slideshow-container {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        /* Slides */
+        .slides {
+            display: flex;
+            width: 100%;
+            height: 70vh;
+            min-height: 500px;
+            scroll-snap-type: x mandatory;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .slides::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 30px;
+            padding-top: 80px;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .slide:target .slide-content {
+            transform: translateY(0);
+        }
+        
+        .slide-title {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+        
+        .slide-desc {
+            font-size: 1.1rem;
+            max-width: 80%;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+        
+        /* Navigation Controls */
+        .controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        
+        .control-btn {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin: 0 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .control-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+        
+        /* Thumbnails */
+        .thumbnails {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px;
+            background-color: #222;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+        
+        .thumbnails::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .thumbnails::-webkit-scrollbar-track {
+            background: #222;
+        }
+        
+        .thumbnails::-webkit-scrollbar-thumb {
+            background-color: #555;
+            border-radius: 10px;
+        }
+        
+        .thumbnail {
+            min-width: 120px;
+            height: 80px;
+            margin: 0 5px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+            border-radius: 5px;
+            opacity: 0.7;
+            scroll-snap-align: start;
+        }
+        
+        .thumbnail:hover, .thumbnail:target {
+            opacity: 1;
+            border-color: #fff;
+            transform: scale(1.05);
+        }
+        
+        /* Slide Counter */
+        .slide-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+        
+        /* Play/Pause Animation */
+        .play-pause {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slides {
+                height: 50vh;
+                min-height: 300px;
+            }
+            
+            .slide-title {
+                font-size: 1.5rem;
+            }
+            
+            .slide-desc {
+                font-size: 0.9rem;
+                max-width: 100%;
+            }
+            
+            .control-btn {
+                width: 40px;
+                height: 40px;
+                margin: 0 10px;
+            }
+            
+            .thumbnail {
+                min-width: 80px;
+                height: 60px;
+            }
+        }
+        
+        /* Animation Effects */
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .slide:target {
+            animation: slideIn 0.5s ease;
+        }
+        
+        /* Auto-scrolling effect with CSS animation */
+        @keyframes autoscroll {
+            0% { scroll-snap-align: start; }
+            20% { scroll-snap-align: start; }
+            25% { scroll-snap-align: center; }
+            95% { scroll-snap-align: center; }
+            100% { scroll-snap-align: end; }
+        }
+        
+        .slides {
+            animation: autoscroll 30s infinite alternate;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="slideshow-container">
+        <div class="slides" id="slides">
+            <!-- Slide 1 -->
+            <div class="slide" id="slide1" style="background-image: url('/assets/photo_gallery/photo_2025-03-24_18-59-32.jpg');">
+                <div class="slide-content">
+                    <h2 class="slide-title">while teaching</h2>
+                   
+                </div>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="slide" id="slide2" style="background-image: url('/assets/photo_gallery/photo_2025-03-24_18-59-59.jpg');">
+                <div class="slide-content">
+                    <h2 class="slide-title">Sport fields</h2>
+                </div>
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="slide" id="slide3" style="background-image: url('/assets/photo_gallery/photo_2025-03-24_19-00-29.jpg');">
+                <div class="slide-content">
+                    <h2 class="slide-title">Library</h2>
+                    
+                </div>
+            </div>
+            
+            <!-- Slide 4 -->
+            <div class="slide" id="slide4" style="background-image: url('/assets/photo_gallery/photo_2025-03-24_18-59-30 (2).jpg');">
+                <div class="slide-content">
+                    <h2 class="slide-title">IT class</h2>
+                    
+                </div>
+            </div>
+            
+            <!-- Slide 5 -->
+            <div class="slide" id="slide5" style="background-image: url('/assets/photo_gallery/photo_2025-03-24_19-00-23.jpg');">
+                <div class="slide-content">
+                    <h2 class="slide-title">Library View</h2>
+                    
+                </div>
+            <!-- Slide 6  -->
+            <div class="slide" id="slide6" style="background-image: url('/assets/photo_gallery/photo_2025-03-24_18-59-29.jpg');">
+                <div class="slide-content">
+                    <h2 class="slide-title">Basketball court</h2>
+                    
+                </div>
+            </div>
+            

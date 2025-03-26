@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eyoracadamy</title>
+    <link rel="shortcut icon" href="https://i.pinimg.com/474x/79/47/94/794794ee9749c55e03307f02a3f7738d.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links > li {
+            margin: 0 15px;
+            position: relative;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #34495e;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: block;
+            padding: 8px 0;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3498db;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #3498db;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            width: 200px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .nav-links > li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown li {
+            padding: 10px 20px;
+            border-bottom: 1px solid #f1f1f1;
+            transition: background-color 0.3s;
+        }
+        
+        .dropdown li:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown li:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .dropdown a {
+            color: #34495e !important;
+        }
+        
+        .social-icons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 36px;
+            height: 36px;
+            background-color: #f1f1f1;
+            border-radius: 50%;
+            margin-left: 12px;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: #3498db;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        /* Slideshow Styles */
+        .slideshow-container {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .slides {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+            height: 600px;
+        }
+        
+        .slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8);
+        }
+        
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            padding: 40px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease 0.3s;
+        }
+        
+        .slide.active .slide-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .slide-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .slide-content p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            max-width: 70%;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .btn:hover {
+            background-color: transparent;
+            border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 30px;
+        }
+        
+        .control-btn {
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .control-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+        
+        .dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dot.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .slides {
+                height: 500px;
+            }
+            
+            .slide-content {
+                padding: 30px;
+            }
+            
+            .slide-content h2 {
+                font-size: 2rem;
+            }
+            
+            .slide-content p {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 30px;
+                transition: left 0.3s ease;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links > li {
+                margin: 15px 0;
+            }
+            
+            .dropdown {
+                position: static;
+                width: auto;
+                box-shadow: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                display: none;
+                background-color: #f8f9fa;
+                border-radius: 0;
+                margin-top: 10px;
+            }
+            
+            .nav-links > li:hover .dropdown {
+                transform: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .social-icons {
+                margin-left: auto;
+                margin-right: 20px;
+            }
+            
+            .slides {
+                height: 400px;
+            }
+            
+            .slide-content {
+                padding: 20px;
+            }
+            
+            .slide-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .slide-content p {
+                font-size: 1rem;
+                max-width: 100%;
+            }
+            
+            .control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+        }
+        .secnd{
+            display: flexbox;
+            justify-content: center;
+            align-items: center;
+            margin: 50px;
+        }
+        #About:hover{
+            /*transform: scale(1.05);*/
+            animation: infohomeanim 3s infinite;
+        }
+        .Total-students{
+            color: white;
+        }
+        @keyframes infohomeanim {
+            100%{
+                transition: scale(1.05);
+            }
+            90%{
+                transition: scale(1.00);
+            }
+            80%{
+                transition: scale(0.05);
+            }
+            70%{
+                transition: scale(0.04);
+            }
+            50%{
+                transition: scale(0.3);
+            }
+            40%{
+                transition: scale(0.2);
+            }
+            30%{
+                transition: scale(0.1);
+            }
+        }
+        #About{
+            cursor: pointer;
+        }
+        .passp{
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-weight: 700;
+        }
+        .disc{
+            border-style: none;
+            cursor: pointer;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 10%;
+            margin: 20px;
+        }
+        .disc:hover{
+            animation: btnhm 3s ;
+        }
+        @keyframes btnhm {
+            100%{
+                transform: rotateX(90);
+                transition-duration: 3s;
+                transition: ease-in-out;
+            }
+        }
+        .Total-student{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/assets/school.jpg" alt="School Logo">
+            <h1>Eyor Academy</h1>
+        </div>
+        
+        <ul class="nav-links">
+            <li>
+                <a href="home.html">Home</a>
+            </li>
+            <li>
+                <a href="#">events</a>
+                <ul class="dropdown">
+                    <li><a href="/pages/galleryph01.html">primary school</a></li>
+                    <li><a href="/pages/galleryh02.html">kinder garten</a></li>
+                    <li><a href="/pages/sportevents.html">Sport evenets</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Onlie regestration</a>
+                <ul class="dropdown">
+                    <li><a href="https://www.cognitoforms.com/EyorAcadamy/NewStudentApplication">Online form for new students</a></li>
+                    <li><a href="https://www.cognitoforms.com/EyorAcadamy/StudentRegestration">online form for old students</a></li>
+                </ul>
+            </li>
+            <li><a href="/pages/awards.html">Awards</a></li>
+            <li><a href="/pages/contact.html">Feedback</a></li>
+        </ul>
+        
+        <div class="social-icons">
+            <a href="https://t.me/eyor10" target="_blank" aria-label="Telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://www.linkedin.com/company/eyor/about/" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </div>
+        
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    
+    <div class="slideshow-container">
+        <div class="slides">
+            <div class="slide active">
+                <img src="/assets/photo_gallery//home1.jpg" alt="Campus View">
+                <div class="slide-content">
+                    <h2>Shape Your Future With Us</h2>
+                    <p>Join our vibrant community of learners and innovators. Discover programs that will prepare you for the careers of tomorrow.</p>
+                    <a href="/pages/primary_school.html" class="btn">Explore Programs</a>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/assets/photo_gallery/mainn1.jpg" alt="Library">
+                <div class="slide-content">
+                    <h2>Head administer and founder</h2>
+                    <p></p>
+                    <a href="#" class="btn">Tour Our Facilities</a>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/assets/photo_gallery/front3.jpg" alt="Graduation">
+                <div class="slide-content">
+                    <h2>Attractive school compound</h2>
+                    <p>Developes students educational progress </p>
+                    <a href="#" class="btn">See Career Outcomes</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button class="control-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        
+        <div class="dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let slideIndex = 0;
+            const slides = document.querySelectorAll(".slide");
+            const dots = document.querySelectorAll(".dot");
+            const prevBtn = document.querySelector(".prev-btn");
+            const nextBtn = document.querySelector(".next-btn");
+            let autoSlideInterval;
+    
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove("active"));
+                dots.forEach(dot => dot.classList.remove("active"));
+    
+                slides[index].classList.add("active");
+                dots[index].classList.add("active");
+            }
+    
+            function nextSlide() {
+                slideIndex = (slideIndex + 1) % slides.length;
+                updateSlide();
+            }
+    
+            function prevSlide() {
+                slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+                updateSlide();
+            }
+    
+            function updateSlide() {
+                document.querySelector(".slides").style.transform = `translateX(-${slideIndex * 100}%)`;
+                showSlide(slideIndex);
+            }
+    
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            }
+    
+            function stopAutoSlide() {
+                clearInterval(autoSlideInterval);
+            }
+    
+            // Button Controls
+            prevBtn.addEventListener("click", prevSlide);
+            nextBtn.addEventListener("click", nextSlide);
+    
+            // Dots Click Event
+            dots.forEach((dot, index) => {
+                dot.addEventListener("click", () => {
+                    slideIndex = index;
+                    updateSlide();
+                });
+            });
+    
+            // Pause on Hover
+            document.querySelector(".slideshow-container").addEventListener("mouseover", stopAutoSlide);
+            document.querySelector(".slideshow-container").addEventListener("mouseleave", startAutoSlide);
+    
+            startAutoSlide(); // Start Auto-Slideshow
+        });
+    </script>
+    
+    <div class="about-eyor-section">
+        <div class="eyor-header">
+            <h1 id="About" class="eyor-title">About <span class="eyor-highlight">Eyor</span></h1>
+            <div class="eyor-divider"></div>
+        </div>
+        
+        <div class="eyor-content">
+            <p class="eyor-description">
+                Eyor has been established since <span class="highlight-year">1998 E.C</span> with the kindergarten branch. 
+                The primary school started in <span class="highlight-year">2006</span> and has since become one of the most 
+                influential schools in Ethiopia. Our success comes from:
+            </p>
+            
+            <div class="eyor-features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Talented Students</h3>
+                    <p>Our students consistently demonstrate exceptional abilities across all disciplines</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👩‍🏫</div>
+                    <h3>Professional Teachers</h3>
+                    <p>Regular tutor classes ensure our teachers continuously improve their skills</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎭</div>
+                    <h3>Extracurricular Activities</h3>
+                    <p>Minimidea, acting, sports, science & technology clubs, and many more</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                    <h3>Parent Engagement</h3>
+                    <p>We maintain strong communication to keep families informed about their child's progress</p>
+                </div>
+            </div>
+            
+            <p class="eyor-values">
+                At Eyor, we motivate students to be <span class="value-tag">kind</span>, 
+                <span class="value-tag">helpful</span>, and <span class="value-tag">generous</span> 
+                to their friends, families, and community.
+            </p>
+        </div>
+        
+        <button class="eyor-discover-btn">
+            Discover More
+            <svg class="btn-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </button>
+    </div>
+    
+    <style>
+    .about-eyor-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8fafc;
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .about-eyor-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, #4f46e5, #10b981);
+    }
+    
+    .eyor-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .eyor-title {
+        color: #1e293b;
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .eyor-highlight {
+        color: #4f46e5;
+        position: relative;
+    }
+    
+    .eyor-highlight::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #10b981;
+        border-radius: 3px;
+    }
+    
+    .eyor-divider {
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #4f46e5, #10b981);
+        margin: 0 auto;
+        border-radius: 2px;
+    }
+    
+    .eyor-description, .eyor-values {
+        color: #475569;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 30px;
+        text-align: center;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .highlight-year {
+        font-weight: 700;
+        color: #4f46e5;
+        background-color: #e0e7ff;
+        padding: 2px 8px;
+        border-radius: 4px;
+    }
+    
+    .eyor-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin: 50px 0;
+    }
+    
+    .feature-card {
+        background: white;
+        border-radius: 10px;
+        padding: 30px 20px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border: 1px solid #e2e8f0;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        border-color: #c7d2fe;
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .feature-card h3 {
+        color: #1e293b;
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+    
+    .feature-card p {
+        color: #64748b;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+    
+    .eyor-values {
+        font-style: italic;
+        position: relative;
+        padding: 20px;
+        background-color: #f1f5f9;
+        border-radius: 8px;
+    }
+    
+    .value-tag {
+        display: inline-block;
+        background-color: #e0f2fe;
+        color: #0369a1;
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+        margin: 0 3px;
+    }
+    
+    .eyor-discover-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 40px auto 0;
+        padding: 12px 30px;
+        background: linear-gradient(90deg, #4f46e5, #6366f1);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+    }
+    
+    .eyor-discover-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 14px rgba(79, 70, 229, 0.3);
+        background: linear-gradient(90deg, #6366f1, #4f46e5);
+    }
+    
+    .btn-arrow {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        margin-left: 8px;
+        transition: transform 0.3s ease;
+    }
+    
+    .eyor-discover-btn:hover .btn-arrow {
+        transform: translateX(3px);
+    }
+    
+    @media (max-width: 768px) {
+        .eyor-title {
+            font-size: 2.2rem;
+        }
+        
+        .eyor-description, .eyor-values {
+            font-size: 1rem;
+        }
+        
+        .eyor-features {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .eyor-title {
+            font-size: 1.8rem;
+        }
+        
+        .eyor-features {
+            grid-template-columns: 1fr;
+        }
+        
+        .eyor-discover-btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+    }
+    </style>
+    
+    <script>
+    // Animation for feature cards when they come into view
+    document.addEventListener('DOMContentLoaded', function() {
+        const featureCards = document.querySelectorAll('.feature-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        featureCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    });
+    </script>
+
+    <div class="lccs-about-section">
+        <h1 class="lccs-title">About Eyor acadamy</h1>
+        <div class="divider"></div>
+        
+        <div class="stats-container">
+            <h2 class="stats-title">Years of Experience</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="yearsCounter">0</div>
+                    <div class="stat-label">Years</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" id="campusesCounter">0</div>
+                    <div class="stat-label">Student Campuses</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" id="staffCounter">0</div>
+                    <div class="stat-label">Staff Members</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" id="studentsCounter">0</div>
+                    <div class="stat-label">Students</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+    .lccs-about-section {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .lccs-title {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2.5rem;
+    }
+    
+    .divider {
+        height: 4px;
+        width: 100px;
+        background: linear-gradient(90deg, #3498db, #2ecc71);
+        margin: 0 auto 40px;
+        border-radius: 2px;
+    }
+    
+    .stats-container {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .stats-title {
+        color: #34495e;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 1.8rem;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 8px;
+        padding: 25px 15px;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #2980b9;
+        margin-bottom: 10px;
+    }
+    
+    .stat-label {
+        color: #7f8c8d;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+    
+    <script>
+    // Animate counting up the numbers
+    function animateCounter(elementId, targetNumber, duration = 2000) {
+        const element = document.getElementById(elementId);
+        const startNumber = 0;
+        const increment = targetNumber / (duration / 16); // 60fps
+        
+        let currentNumber = startNumber;
+        const timer = setInterval(() => {
+            currentNumber += increment;
+            if (currentNumber >= targetNumber) {
+                clearInterval(timer);
+                currentNumber = targetNumber;
+            }
+            element.textContent = Math.floor(currentNumber).toLocaleString();
+        }, 16);
+    }
+    
+    // Start counters when the section comes into view
+    function startCounters() {
+        animateCounter('yearsCounter', 19);
+        animateCounter('campusesCounter', 2);
+        animateCounter('staffCounter', 53); // You didn't provide staff number, so I added a placeholder
+        animateCounter('studentsCounter', 897);
+    }
+    
+    // Intersection Observer to trigger animation when section is visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                startCounters();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    observer.observe(document.querySelector('.stats-container'));
+    </script>
+    <script>
+
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        const navItems = document.querySelectorAll('.nav-links > li');
+        navItems.forEach(item => {
+            if (window.innerWidth <= 768) {
+                item.addEventListener('click', function() {
+                    const dropdown = this.querySelector('.dropdown');
+                    if (dropdown) {
+                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                    }
+                });
+            }
+        });
+
+        // Slideshow Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Ensure index is within bounds
+            if (index >= totalSlides) currentSlide = 0;
+            else if (index < 0) currentSlide = totalSlides - 1;
+            else currentSlide = index;
+            
+            // Show current slide
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        // Next/Previous Controls
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+        });
+
+        // Dot Navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Auto-advance slides every 5 seconds
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+
+        // Initialize first slide
+        showSlide(0);
+    </script>
+    <div class="school-levels-section">
+        <div class="level-cards-container">
+            <!-- Primary School Card -->
+            <div class="level-card primary-school">
+                <div class="level-icon">🏫</div>
+                <h2 class="level-title">kinder garten</h2>
+                <div class="level-divider"></div>
+                <p class="level-description">
+                    Our kindergarten school program builds strong foundations in core subjects while nurturing 
+                    creativity and curiosity through interactive learning experiences.
+                </p>
+                <ul class="level-features">
+                    <li>nursry-kg3 comprehensive curriculum</li>
+                    <li>Interactive learning methods</li>
+                    <li>Character development programs</li>
+                    <li>Specialized reading initiatives</li>
+                </ul>
+                <button class="level-btn"><a href="/pages/kg_school.html" style="text-decoration: none; color: white;">Explore Kinder garten</a></button>
+            </div>
+    
+            <div class="level-card secondary-school">
+                <div class="level-icon">🎓</div>
+                <h2 class="level-title">Primary School</h2>
+                <div class="level-divider"></div>
+                <p class="level-description">
+                    Our primary programs prepares students for creativity and other things with advanced teaching and learning, 
+                    also this programm helps students on basic language skills like reading, writting, listening, speaking.
+                </p>
+                <ul class="level-features">
+                    <li>Grades 1-8 academic program</li>
+                    <li>STEM and humanities tracks</li>
+                    <li>Leadership development</li>
+                </ul>
+                <button class="level-btn"><a href="/pages/primary_school.html" style="text-decoration: none; color: white;">Explore primary</a></button>
+            </div>
+
+            <div class="level-card secondary-school">
+                <div class="level-icon">🏆</div>
+                <h2 class="level-title">Middle school</h2>
+                <div class="level-divider"></div>
+                <p class="level-description">
+                    Our secondary program prepares students for higher education with advanced coursework, 
+                    college preparation, and specialized subject tracks.
+                </p>
+                <ul class="level-features">
+                    <li>Grades 7-8 academic program</li>
+                    <li>STEM and humanities tracks</li>
+                    <li>highschool preparation</li>
+                    <li>Leadership development</li>
+                </ul>
+                <button class="level-btn"><a href="/pages/primary_school.html" style="text-decoration: none; color: white;">Explore primary</a></button>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+    .school-levels-section {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .level-cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+    
+    .level-card {
+        background: white;
+        border-radius: 12px;
+        padding: 40px 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border-top: 5px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .primary-school {
+        border-top-color: #4f46e5;
+    }
+    
+    .secondary-school {
+        border-top-color: #10b981;
+    }
+    
+    .level-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .level-icon {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        opacity: 0.9;
+    }
+    
+    .level-title {
+        color: #1e293b;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        position: relative;
+    }
+    
+    .level-divider {
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #4f46e5, #10b981);
+        margin: 0 auto 25px;
+        border-radius: 3px;
+    }
+    
+    .level-description {
+        color: #475569;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+    
+    .level-features {
+        text-align: left;
+        margin: 0 auto 30px;
+        padding: 0;
+        max-width: 300px;
+        list-style-type: none;
+    }
+    
+    .level-features li {
+        color: #64748b;
+        padding: 8px 0;
+        position: relative;
+        padding-left: 25px;
+        font-size: 0.95rem;
+    }
+    
+    .level-features li::before {
+        content: "✓";
+        color: #4f46e5;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+    }
+    
+    .secondary-school .level-features li::before {
+        color: #10b981;
+    }
+    
+    .level-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 30px;
+        background: linear-gradient(90deg, #4f46e5, #6366f1);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        margin-top: 10px;
+    }
+    
+    .secondary-school .level-btn {
+        background: linear-gradient(90deg, #10b981, #34d399);
+        box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+    }
+    
+    .level-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 14px rgba(79, 70, 229, 0.3);
+    }
+    
+    .secondary-school .level-btn:hover {
+        box-shadow: 0 7px 14px rgba(16, 185, 129, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .level-cards-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .level-card {
+            padding: 30px 20px;
+        }
+        
+        .level-title {
+            font-size: 1.6rem;
+        }
+    }
+    
+    /* Animation for cards */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .level-card {
+        animation: fadeInUp 0.6s ease forwards;
+        opacity: 0;
+    }
+    
+    .secondary-school {
+        animation-delay: 0.2s;
+    }
+    </style>
+    <style>
+        .last-contact-as{
+            display: flex;
+            justify-content: flex-start;
+            color: white;
+            background-color: #4f46e5;
+            margin-top: 20px;
+            width: 100%;
+            height: 300px;
+        }
+        iframe{
+            width: 20rem;
+            height: 20rem;
+            display: flex;
+            align-items: center;
+            align-self: flex-end;
+        }
+    </style>
+    <div class="contact-section">
+        <div class="contact-info">
+            <h2>Contact Us</h2>
+            <p><strong>Address:</strong> Eyor Academy, Addis Ababa, Ethiopia</p>
+            <p><strong>Email:</strong> cgeyoracadamyail.com</p>
+            <p><strong>Phone:</strong> +251 911108442 or 0911892009</p>
+            <p><strong>Website:</strong> <a href="" target="_blank">eyoracademy.com</a></p>
+        </div>
+        <div class="map-container">
+            <iframe 
+                width="100%" 
+                height="300" 
+                frameborder="0" 
+                style="border:0; border-radius: 10px;" 
+                allowfullscreen 
+                referrerpolicy="no-referrer-when-downgrade"
+                src="//www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3745.220651123051!2d38.82614023983477!3d9.047582509718215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b9119466b63ad%3A0x27a9b578890d616!2sEyor%20academy!5e1!3m2!1sam!2set!4v1742988208048!5m2!1sam!2set">
+            </iframe>
+        </div>
+    </div>
+    
+    <style>
+        .contact-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-info {
+            flex: 1;
+            padding: 20px;
+            font-size: 16px;
+        }
+    
+        .map-container {
+            flex: 1;
+            padding: 20px;
+        }
+    
+        .contact-info p {
+            margin: 5px 0;
+        }
+    
+        .contact-info a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    
+        @media (max-width: 768px) {
+            .contact-section {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+    <div id="copyright" style="display: flex; justify-content: center; align-items: center;">
+        <h4 style="color: black; font-weight: 600; font-family: sans-serif;">© EyorAcadamy | developers: Tesnim ousman , Yohans Ashenafe, Abel Solomon</h4>
+    </div>
+
+</body>
+</html>
