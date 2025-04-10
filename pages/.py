@@ -46,5 +46,5 @@ if not os.path.exists("students"):
 
 # Run the server
 server = HTTPServer(("127.0.0.1", 5500), SimpleHandler)
-print("Server running on http://localhost:8080")
+print("Server running on http://:8080")
 server.serve_forever()

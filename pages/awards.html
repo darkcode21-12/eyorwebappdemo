@@ -3,233 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Slideshow</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
+    <title>Document</title>
 </head>
 <body>
     <style>
-        * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+        }
+        iframe{
+            background-color: aqua;
+            width: 40pc;
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: white;
-    overflow: hidden;
-}
-
-.slideshow-container {
-    position: relative;
-    max-width: 100%;
-    height: 100vh;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.slides {
-    display: flex;
-    transition: transform 1s ease-in-out;
-}
-
-.slide {
-    position: relative;
-    min-width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 1s ease-in-out, transform 1s ease;
-}
-
-.slide.active {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.slide-prev {
-    transform: translateX(-100%);
-}
-
-.slide-next {
-    transform: translateX(100%);
-}
-
-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.slide-content {
-    position: absolute;
-    top: 20%;
-    text-align: center;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 10px;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-.slide h2 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    animation: fadeIn 2s ease-out;
-}
-
-.slide p {
-    font-size: 1.5rem;
-    animation: fadeIn 2s ease-out;
-}
-
-.controls {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    z-index: 1;
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.slideshow-container:hover .controls {
-    opacity: 1;
-}
-
-.control-btn {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    font-size: 2rem;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.control-btn:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-    transform: scale(1.1);
-}
-
-.dots {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-}
-
-.dot {
-    width: 10px;
-    height: 10px;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.dot:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    transform: scale(1.2);
-}
-
-.dot.active {
-    background-color: #fff;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-    </style>
-    <video autoplay loop muted width="600">
-        <source src="/assets/video_gallery/YouCut_20241221_015603172.mp4" type="video/mp4">
-    </video>
-    
-        <div class="controls">
-            <button class="control-btn prev-btn">&#10094;</button>
-            <button class="control-btn next-btn">&#10095;</button>
-        </div>
+        }
         
-        <div class="dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
-    </div>
-    <script>
-        const prevBtn = document.querySelector('.prev-btn');
-const nextBtn = document.querySelector('.next-btn');
-const dots = document.querySelectorAll('.dot');
-const slides = document.querySelectorAll('.slide');
-let currentIndex = 0;
-
-function showSlide(index) {
-    if (index < 0) index = slides.length - 1;
-    if (index >= slides.length) index = 0;
-
-    // Remove active class and set sliding direction
-    slides.forEach((slide) => {
-        slide.classList.remove('active');
-        slide.classList.remove('slide-prev', 'slide-next');
-    });
-
-    // Set the new active slide and direction
-    slides[index].classList.add('active');
-    dots.forEach((dot) => dot.classList.remove('active'));
-    dots[index].classList.add('active');
-}
-
-function nextSlide() {
-    currentIndex++;
-    showSlide(currentIndex);
-}
-
-function prevSlide() {
-    currentIndex--;
-    showSlide(currentIndex);
-}
-
-nextBtn.addEventListener('click', nextSlide);
-prevBtn.addEventListener('click', prevSlide);
-
-dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        currentIndex = index;
-        showSlide(currentIndex);
-    });
-});
-
-// Auto-play every 5 seconds
-setInterval(nextSlide, 5000);
-
-// Initialize the first slide
-showSlide(currentIndex);
-
-// Pause on hover
-const videoElements = document.querySelectorAll('video');
-videoElements.forEach(video => {
-    video.addEventListener('mouseenter', () => video.pause());
-    video.addEventListener('mouseleave', () => video.play());
-});
-
-    </script>
+    </style>
+    <iframe src="#" frameborder="0"  height="50%"></iframe>
 </body>
 </html>
