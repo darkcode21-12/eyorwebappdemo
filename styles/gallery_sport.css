@@ -15,7 +15,7 @@ img{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url(/assets/photo_gallery/photo_2025-03-24_18-59-35.jpg);
+    background-image: url("https://github.com/darkcode21-12/photoseyor/blob/main/IMG_20250324_195035_137.jpg?raw=true");
     background-size: cover;
     background-repeat: no-repeat;
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eyoracadamy</title>
+    <title>eyoracadamy.edu</title>
     <link rel="shortcut icon" href="https://i.pinimg.com/474x/79/47/94/794794ee9749c55e03307f02a3f7738d.jpg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -427,6 +427,7 @@
             font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             font-weight: 700;
         }
+        
         .disc{
             border-style: none;
             cursor: pointer;
@@ -496,12 +497,12 @@
             <i class="fas fa-bars"></i>
         </div>
     </nav>
-
+<button onclick="rundemo()">why?</button>
     
     <div class="slideshow-container">
         <div class="slides">
             <div class="slide active">
-                <img src="https://github.com/darkcode21-12/eyorwebappdemo/blob/main/assets/photo_gallery/home1.jpg?raw=true" alt="Campus View">
+                <img src="/assets/photo_gallery/home1.jpg" alt="Campus View">
                 <div class="slide-content">
                     <h2>Shape Your Future With Us</h2>
                     <p>Join our vibrant community of learners and innovators. Discover programs that will prepare you for the careers of tomorrow.</p>
@@ -509,7 +510,7 @@
                 </div>
             </div>
             <div class="slide">
-                <img src="https://github.com/darkcode21-12/eyorwebappdemo/blob/main/assets/photo_gallery/mainn1.jpg?raw=true" alt="headminstier">
+                <img src="/assets/photo_gallery/mainn1.jpg" alt="headminstier">
                 <div class="slide-content">
                     <h2>Head administer and founder</h2>
                     <p></p>
@@ -517,7 +518,7 @@
                 </div>
             </div>
             <div class="slide">
-                <img src="https://github.com/darkcode21-12/eyorwebappdemo/blob/main/assets/photo_gallery/front3.jpg?raw=true" alt="Graduation">
+                <img src="/assets/photo_gallery/front3.jpg" alt="Graduation">
                 <div class="slide-content">
                     <h2>Attractive school compound</h2>
                     <p>Developes students educational progress </p>
@@ -811,22 +812,22 @@
             
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number" id="yearsCounter">0</div>
+                    <div class="stat-number" id="yearsCounter">19</div>
                     <div class="stat-label">Years</div>
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-number" id="campusesCounter">0</div>
+                    <div class="stat-number" id="campusesCounter">2</div>
                     <div class="stat-label">Student Campuses</div>
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-number" id="staffCounter">0</div>
+                    <div class="stat-number" id="staffCounter">53</div>
                     <div class="stat-label">Staff Members</div>
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-number" id="studentsCounter">0</div>
+                    <div class="stat-number" id="studentsCounter">897</div>
                     <div class="stat-label">Students</div>
                 </div>
             </div>
@@ -967,7 +968,7 @@
                     <li>highschool preparation</li>
                     <li>Leadership development</li>
                 </ul>
-                <button class="level-btn"><a href="/pages/primary_school.html" style="text-decoration: none; color: white;">Explore primary</a></button>
+                <button class="level-btn"><a href="/pages/primary_school.html" style="text-decoration: none; color: white;">Explore Middle</a></button>
             </div>
         </div>
     </div>
@@ -1210,10 +1211,199 @@
                 text-align: center;
             }
         }
+        #blocker-boot{
+            height: 20px;
+        }
     </style>
+    <div id="blocker-boot"></div>
     <div id="copyright" style="display: flex; justify-content: center; align-items: center;">
         <h4 style="color: black; font-weight: 600; font-family: sans-serif;">© EyorAcadamy | developers: Tesnim ousman , Yohans Ashenafe, Abel Solomon</h4>
     </div>
+<script>
+    
+function wait() {
+    alert("wait please ... ")
+    console.log("on progress!")
+}
+document.addEventListener("DOMContentLoaded", function () {
+    let slideIndex = 0;
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".dot");
+    const prevBtn = document.querySelector(".prev-btn");
+    const nextBtn = document.querySelector(".next-btn");
+    let autoSlideInterval;
 
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove("active"));
+        dots.forEach(dot => dot.classList.remove("active"));
+
+        slides[index].classList.add("active");
+        dots[index].classList.add("active");
+    }
+
+    function nextSlide() {
+        slideIndex = (slideIndex + 1) % slides.length;
+        updateSlide();
+    }
+
+    function prevSlide() {
+        slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+        updateSlide();
+    }
+
+    function updateSlide() {
+        document.querySelector(".slides").style.transform = `translateX(-${slideIndex * 100}%)`;
+        showSlide(slideIndex);
+    }
+
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, 5000);
+    }
+
+    function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+    }
+
+    // Button Controls
+    prevBtn.addEventListener("click", prevSlide);
+    nextBtn.addEventListener("click", nextSlide);
+
+    // Dots Click Event
+    dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+            slideIndex = index;
+            updateSlide();
+        });
+    });
+
+    // Pause on Hover
+    document.querySelector(".slideshow-container").addEventListener("mouseover", stopAutoSlide);
+    document.querySelector(".slideshow-container").addEventListener("mouseleave", startAutoSlide);
+
+    startAutoSlide(); // Start Auto-Slideshow
+});
+    // Start counters when the section comes into view
+    function startCounters() {
+        animateCounter('yearsCounter', 19);
+        animateCounter('campusesCounter', 2);
+        animateCounter('staffCounter', 53); // You didn't provide staff number, so I added a placeholder
+        animateCounter('studentsCounter', 897);
+    }
+    
+    // Intersection Observer to trigger animation when section is visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                startCounters();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    observer.observe(document.querySelector('.stats-container'));
+    
+
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        const navItems = document.querySelectorAll('.nav-links > li');
+        navItems.forEach(item => {
+            if (window.innerWidth <= 768) {
+                item.addEventListener('click', function() {
+                    const dropdown = this.querySelector('.dropdown');
+                    if (dropdown) {
+                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                    }
+                });
+            }
+        });
+
+        // Slideshow Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Ensure index is within bounds
+            if (index >= totalSlides) currentSlide = 0;
+            else if (index < 0) currentSlide = totalSlides - 1;
+            else currentSlide = index;
+            
+            // Show current slide
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        // Next/Previous Controls
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+        });
+
+        // Dot Navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Auto-advance slides every 5 seconds
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+
+        // Initialize first slide
+        showSlide(0);
+
+        function animateCounter(elementId, targetNumber, duration = 2000) {
+            const element = document.getElementById(elementId);
+            const startNumber = 0;
+            const increment = targetNumber / (duration / 16); // 60fps
+            
+            let currentNumber = startNumber;
+            const timer = setInterval(() => {
+                currentNumber += increment;
+                if (currentNumber >= targetNumber) {
+                    clearInterval(timer);
+                    currentNumber = targetNumber;
+                }
+                element.textContent = Math.floor(currentNumber).toLocaleString();
+            }, 16);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            featureCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+
+</script>
 </body>
 </html>
