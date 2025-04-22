@@ -824,7 +824,7 @@
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-number" id="studentsCounter">711</div>
+                    <div class="stat-number" id="studentsCounter">710</div>
                     <div class="stat-label">Students</div>
                 </div>
             </div>
@@ -1283,8 +1283,8 @@ document.addEventListener("DOMContentLoaded", function () {
     function startCounters() {
         animateCounter('yearsCounter', 19);
         animateCounter('campusesCounter', 2);
-        animateCounter('staffCounter', 53); // You didn't provide staff number, so I added a placeholder
-        animateCounter('studentsCounter', 897);
+        animateCounter('staffCounter', 58); // You didn't provide staff number, so I added a placeholder
+        animateCounter('studentsCounter', 710);
     }
     
     // Intersection Observer to trigger animation when section is visible
@@ -1350,25 +1350,25 @@ document.addEventListener("DOMContentLoaded", function () {
             showSlide(currentSlide - 1);
         });
 
-        // Dot Navigation
+        
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 showSlide(index);
             });
         });
 
-        // Auto-advance slides every 5 seconds
+        
         setInterval(() => {
             showSlide(currentSlide + 1);
         }, 5000);
 
-        // Initialize first slide
+    
         showSlide(0);
 
         function animateCounter(elementId, targetNumber, duration = 2000) {
             const element = document.getElementById(elementId);
             const startNumber = 0;
-            const increment = targetNumber / (duration / 16); // 60fps
+            const increment = targetNumber / (duration / 16); 
             
             let currentNumber = startNumber;
             const timer = setInterval(() => {
